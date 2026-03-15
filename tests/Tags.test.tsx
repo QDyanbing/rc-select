@@ -13,7 +13,14 @@ import openControlledTest from './shared/openControlledTest';
 import removeSelectedTest from './shared/removeSelectedTest';
 import maxTagRenderTest from './shared/maxTagRenderTest';
 import throwOptionValue from './shared/throwOptionValue';
-import { injectRunAllTimers, findSelection, expectOpen, toggleOpen, keyDown } from './utils/common';
+import {
+  injectRunAllTimers,
+  findSelection,
+  expectOpen,
+  toggleOpen,
+  keyDown,
+  keyUp,
+} from './utils/common';
 import type { CustomTagProps } from '@/BaseSelect';
 
 describe('Select.Tags', () => {
@@ -138,6 +145,29 @@ describe('Select.Tags', () => {
     expect(findSelection(container).textContent).toEqual('Star Kirby');
     expect(container.querySelector('input').value).toBe('');
     expectOpen(container, false);
+  });
+
+  it('should trigger onSelect once when pressing Enter to select option in tags mode (dropdown open)', () => {
+    const handleSelect = jest.fn();
+    const { container } = render(
+      <Select
+        mode="tags"
+        open
+        showSearch
+        onSelect={handleSelect}
+        options={[
+          { label: 'Dacryoadenitis', value: 'opt1' },
+          { label: 'Dacryocystitis', value: 'opt2' },
+        ]}
+      />,
+    );
+    fireEvent.change(container.querySelector('input'), { target: { value: 'da' } });
+    jest.runAllTimers();
+    fireEvent.mouseMove(container.querySelectorAll('.rc-select-item-option')[0]);
+    keyDown(container.querySelector('input'), KeyCode.ENTER);
+    keyUp(container.querySelector('input'), KeyCode.ENTER);
+    jest.runAllTimers();
+    expect(handleSelect).toHaveBeenCalledTimes(1);
   });
 
   // Paste tests
