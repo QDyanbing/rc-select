@@ -13,14 +13,7 @@ import openControlledTest from './shared/openControlledTest';
 import removeSelectedTest from './shared/removeSelectedTest';
 import maxTagRenderTest from './shared/maxTagRenderTest';
 import throwOptionValue from './shared/throwOptionValue';
-import {
-  injectRunAllTimers,
-  findSelection,
-  expectOpen,
-  toggleOpen,
-  keyDown,
-  keyUp,
-} from './utils/common';
+import { injectRunAllTimers, findSelection, expectOpen, toggleOpen, keyDown } from './utils/common';
 import type { CustomTagProps } from '@/BaseSelect';
 
 describe('Select.Tags', () => {
@@ -163,9 +156,8 @@ describe('Select.Tags', () => {
     );
     fireEvent.change(container.querySelector('input'), { target: { value: 'da' } });
     jest.runAllTimers();
-    fireEvent.mouseMove(container.querySelectorAll('.rc-select-item-option')[0]);
+    fireEvent.mouseMove(container.querySelector('.rc-select-item-option'));
     keyDown(container.querySelector('input'), KeyCode.ENTER);
-    keyUp(container.querySelector('input'), KeyCode.ENTER);
     jest.runAllTimers();
     expect(handleSelect).toHaveBeenCalledTimes(1);
   });
