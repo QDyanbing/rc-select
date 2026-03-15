@@ -149,17 +149,18 @@ describe('Select.Tags', () => {
         showSearch
         onSelect={handleSelect}
         options={[
-          { label: 'Dacryoadenitis', value: 'opt1' },
-          { label: 'Dacryocystitis', value: 'opt2' },
+          { label: 'opt1', value: 'opt1' },
+          { label: 'opt2', value: 'opt2' },
         ]}
       />,
     );
-    fireEvent.change(container.querySelector('input'), { target: { value: 'da' } });
+    fireEvent.change(container.querySelector('input'), { target: { value: 'op' } });
     jest.runAllTimers();
-    fireEvent.mouseMove(container.querySelector('.rc-select-item-option'));
+    keyDown(container.querySelector('input'), KeyCode.DOWN);
     keyDown(container.querySelector('input'), KeyCode.ENTER);
     jest.runAllTimers();
     expect(handleSelect).toHaveBeenCalledTimes(1);
+    expect(handleSelect).toHaveBeenCalledWith('opt1', expect.anything());
   });
 
   // Paste tests
