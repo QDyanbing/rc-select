@@ -140,6 +140,29 @@ describe('Select.Tags', () => {
     expectOpen(container, false);
   });
 
+  it('should trigger onSelect once when pressing Enter to select option in tags mode (dropdown open)', () => {
+    const handleSelect = jest.fn();
+    const { container } = render(
+      <Select
+        mode="tags"
+        open
+        showSearch
+        onSelect={handleSelect}
+        options={[
+          { label: 'opt1', value: 'opt1' },
+          { label: 'opt2', value: 'opt2' },
+        ]}
+      />,
+    );
+    fireEvent.change(container.querySelector('input'), { target: { value: 'op' } });
+    jest.runAllTimers();
+    keyDown(container.querySelector('input'), KeyCode.DOWN);
+    keyDown(container.querySelector('input'), KeyCode.ENTER);
+    jest.runAllTimers();
+    expect(handleSelect).toHaveBeenCalledTimes(1);
+    expect(handleSelect).toHaveBeenCalledWith('opt1', expect.anything());
+  });
+
   // Paste tests
   [
     {

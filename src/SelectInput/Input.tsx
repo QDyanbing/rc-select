@@ -95,7 +95,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     const { value: nextVal } = event.currentTarget;
 
     // Handle Enter key submission - referencing Selector implementation
-    if (key === 'Enter' && mode === 'tags' && !compositionStatusRef.current && onSearchSubmit) {
+    if (
+      key === 'Enter' &&
+      mode === 'tags' &&
+      !open &&
+      !compositionStatusRef.current &&
+      onSearchSubmit
+    ) {
       onSearchSubmit(nextVal);
     }
 
